@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum — Venture Labs AI Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #000000;
+    --bg-alt: #1e1c27;
+    --surface-card: #272530;
+    --accent: #a318f8;
+    --accent-2: #8129ff;
+    --accent-tint: #d9aeff;
+    --text-primary: #ffffff;
+    --text-secondary: #c7c4d1;
+    --muted: #928da3;
+    --border: rgba(255,255,255,0.12);
+    --gridline: #3d3547;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent-tint); }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg-page); border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  header .wrap { max-width: 1080px; display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+  .brand .logo { font-weight: 700; font-size: 13px; letter-spacing: 0.06em; opacity: 0.75; color: #fff; }
+  .brand .name { font-weight: 700; font-size: 16px; color: #fff; }
+  .header-right { display: flex; align-items: center; gap: 18px; }
+  .back-link { font-size: 13.5px; color: rgba(255,255,255,0.75); text-decoration: none; font-weight: 500; }
+  .back-link:hover { color: #fff; }
+  .lang-switch { display: flex; gap: 2px; background: rgba(255,255,255,0.10); border-radius: 999px; padding: 3px; }
+  .lang-btn {
+    appearance: none; border: none; cursor: pointer; font-family: inherit;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.03em; padding: 5px 11px;
+    border-radius: 999px; background: transparent; color: rgba(255,255,255,0.6);
+  }
+  .lang-btn.active { background: var(--accent); color: #fff; }
+
+  main { padding: 56px 0 80px; }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent-tint); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; font-weight: 700; line-height: 1.2; margin: 0 0 30px; color: #fff; }
+  h2 { font-size: 19px; font-weight: 600; margin: 40px 0 12px; color: #fff; }
+  h3 { font-size: 15.5px; font-weight: 600; margin: 22px 0 8px; color: #fff; }
+  p { font-size: 15px; line-height: 1.7; color: var(--text-secondary); margin: 0 0 14px; }
+  address { font-style: normal; font-size: 15px; line-height: 1.7; color: var(--text-secondary); }
+  .card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px 26px; margin-bottom: 8px;
+  }
+  .note {
+    font-size: 13.5px; color: var(--muted); line-height: 1.6; background: var(--bg-alt);
+    border-radius: 10px; padding: 14px 16px; margin-top: 34px;
+  }
+  [hidden] { display: none !important; }
+
+  footer { background: var(--bg-page); border-top: 1px solid rgba(255,255,255,0.08); color: var(--muted); padding: 28px 0; font-size: 12.5px; }
+  footer .wrap { max-width: 1080px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 24px; }
+  .footer-legal { display: flex; align-items: center; gap: 10px; }
+  .footer-legal a { color: var(--muted); text-decoration: none; }
+  .footer-legal a:hover { color: var(--accent-tint); text-decoration: underline; }
+  .footer-dot { color: var(--gridline); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">VENTURE LABS</span>
+      <span class="name">AI Pulse</span>
+    </a>
+    <div class="header-right">
+      <a class="back-link" href="index.html" id="backLink">—</a>
+      <div class="lang-switch">
+        <button class="lang-btn" id="langBtnDe" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== DE ===== -->
+  <div id="content-de">
+    <div class="eyebrow">RECHTLICHES</div>
+    <h1>Impressum</h1>
+
+    <div class="card">
+      <h3>Angaben gemäß § 5 TMG</h3>
+      <address>
+        Venture Labs GmbH<br>
+        Breite Str. 27<br>
+        40213 Düsseldorf<br>
+        Deutschland
+      </address>
+      <p style="margin-top:14px;">Vertreten durch den Geschäftsführer: Christian Wenzel</p>
+    </div>
+
+    <h2>Kontakt</h2>
+    <p>
+      Telefon: +49 156 78 387064<br>
+      E-Mail: <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a><br>
+      Web: <a href="https://venturelabs.team" target="_blank" rel="noopener">venturelabs.team</a>
+    </p>
+
+    <h2>Registereintrag</h2>
+    <p>
+      Registergericht: Amtsgericht Düsseldorf<br>
+      Registernummer: HRB 90623
+    </p>
+
+    <h2>Umsatzsteuer-ID</h2>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: DE 332848146</p>
+
+    <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+    <p>Christian Wenzel, Anschrift wie oben</p>
+
+    <h2>Hinweis zu Venture Labs AI Pulse</h2>
+    <p>
+      Venture Labs AI Pulse ist ein eigenständiges Angebot der Venture Labs GmbH und rechtlich Teil desselben Unternehmens
+      wie <a href="https://venturelabs.team" target="_blank" rel="noopener">venturelabs.team</a>. Es gelten die vorstehenden Angaben.
+    </p>
+
+    <h2>1. Haftung für Inhalte</h2>
+    <p>
+      Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
+      verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder
+      gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit
+      hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen
+      bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
+      Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+    </p>
+
+    <h2>2. Haftung für Links</h2>
+    <p>
+      Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können
+      wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der
+      jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung
+      auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine
+      permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung
+      nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+    </p>
+
+    <h2>3. Urheberrecht</h2>
+    <p>
+      Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.
+      Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes
+      bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind
+      nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+    </p>
+
+    <p class="note">
+      Diese Seite betreibt keinen eigenen Server-Log-Zugriff jenseits der Standard-Protokollierung Ihres Hosting-Anbieters.
+      Details zur Verarbeitung personenbezogener Daten – etwa im Rahmen des AI Pulse Score – finden Sie in unserer
+      <a href="pulse-privacy.html">Datenschutzerklärung</a>.
+    </p>
+  </div>
+
+  <!-- ===== EN ===== -->
+  <div id="content-en" hidden>
+    <div class="eyebrow">LEGAL</div>
+    <h1>Imprint</h1>
+
+    <div class="card">
+      <h3>Information according to § 5 TMG (German Telemedia Act)</h3>
+      <address>
+        Venture Labs GmbH<br>
+        Breite Str. 27<br>
+        40213 Düsseldorf<br>
+        Germany
+      </address>
+      <p style="margin-top:14px;">Represented by the managing director: Christian Wenzel</p>
+    </div>
+
+    <h2>Contact</h2>
+    <p>
+      Phone: +49 156 78 387064<br>
+      Email: <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a><br>
+      Web: <a href="https://venturelabs.team" target="_blank" rel="noopener">venturelabs.team</a>
+    </p>
+
+    <h2>Register entry</h2>
+    <p>
+      Registration court: District Court of Düsseldorf<br>
+      Registration number: HRB 90623
+    </p>
+
+    <h2>VAT ID</h2>
+    <p>VAT identification number according to §27a of the German VAT Act: DE 332848146</p>
+
+    <h2>Responsible for content pursuant to § 55 (2) RStV</h2>
+    <p>Christian Wenzel, address as above</p>
+
+    <h2>A note on Venture Labs AI Pulse</h2>
+    <p>
+      Venture Labs AI Pulse is a standalone offering of Venture Labs GmbH and is legally part of the same company as
+      <a href="https://venturelabs.team" target="_blank" rel="noopener">venturelabs.team</a>. The details above apply.
+    </p>
+
+    <h2>1. Liability for content</h2>
+    <p>
+      As a service provider, we are responsible for our own content on these pages in accordance with general law
+      pursuant to § 7 (1) TMG. However, pursuant to §§ 8 to 10 TMG, we as a service provider are not obligated to
+      monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal
+      activity. Obligations to remove or block the use of information under general law remain unaffected. Liability
+      in this regard is only possible from the point in time at which knowledge of a specific infringement becomes
+      known. Upon becoming aware of any such infringements, we will remove the relevant content immediately.
+    </p>
+
+    <h2>2. Liability for links</h2>
+    <p>
+      Our offer contains links to external third-party websites, over whose content we have no influence. Therefore,
+      we cannot assume any liability for this external content. The respective provider or operator of the linked
+      pages is always responsible for their content. The linked pages were checked for possible legal violations at
+      the time of linking. No illegal content was identifiable at the time of linking. Permanent monitoring of the
+      linked pages is not reasonable without concrete evidence of an infringement. We will remove such links
+      immediately upon becoming aware of any infringements.
+    </p>
+
+    <h2>3. Copyright</h2>
+    <p>
+      The content and works created by the site operators on these pages are subject to German copyright law.
+      Reproduction, editing, distribution, and any kind of use outside the limits of copyright law require the
+      written consent of the respective author or creator. Downloads and copies of this page are only permitted
+      for private, non-commercial use.
+    </p>
+
+    <p class="note">
+      This page does not operate any server-log access beyond the standard logging performed by our hosting
+      provider. For details on the processing of personal data — including through the AI Pulse Score — see our
+      <a href="pulse-privacy.html">privacy policy</a>.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="footerLeft">—</span>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="pulse-imprint.html" id="footerImprint">—</a>
+      <span class="footer-dot">·</span>
+      <a href="pulse-privacy.html" id="footerPrivacy">—</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+let lang = "de";
+const STRINGS = {
+  de: { back: "← Zur Startseite", footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerImprint: "Impressum", footerPrivacy: "Datenschutz" },
+  en: { back: "← Back to homepage", footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerImprint: "Imprint", footerPrivacy: "Privacy" },
+};
+function setLang(newLang) {
+  lang = newLang;
+  document.documentElement.lang = lang;
+  document.getElementById("langBtnDe").classList.toggle("active", lang === "de");
+  document.getElementById("langBtnEn").classList.toggle("active", lang === "en");
+  document.getElementById("content-de").hidden = lang !== "de";
+  document.getElementById("content-en").hidden = lang !== "en";
+  const s = STRINGS[lang];
+  document.getElementById("backLink").textContent = s.back;
+  document.getElementById("footerLeft").textContent = s.footerLeft;
+  document.getElementById("footerImprint").textContent = s.footerImprint;
+  document.getElementById("footerPrivacy").textContent = s.footerPrivacy;
+}
+setLang("de");
+</script>
+</body>
+</html>

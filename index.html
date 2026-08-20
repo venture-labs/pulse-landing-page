@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venture Labs AI Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ---- Real Venture Labs brand tokens, pulled live from venturelabs.team ---- */
+    --bg-page: #000000;          /* outer page background */
+    --bg-alt: #1e1c27;           /* alternating dark section background (their .v-application bg) */
+    --surface-card: #272530;     /* card surface (their .skills__card bg) */
+    --surface-card-alt: #393741; /* secondary dark surface */
+    --accent: #a318f8;           /* "electric-purple" — their primary CTA/underline color */
+    --accent-2: #8129ff;         /* secondary purple (their header button) */
+    --accent-wash: rgba(163, 24, 248, 0.16);
+    --accent-tint: #d9aeff;      /* light lavender — for text on dark washes, where --accent itself is too saturated to read as text */
+    --text-primary: #ffffff;
+    --text-secondary: #c7c4d1;   /* close to their "silver" body copy color, tuned for contrast */
+    --muted: #928da3;
+    --gridline: #3d3547;
+    --border: rgba(255,255,255,0.12);
+    --series-1: #a318f8;         /* dimension-bar fill = brand accent */
+    --status-good: #0ca30c;
+    --status-warning: #fab219;
+    --status-serious: #ec835a;
+    --status-critical: #d03b3b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg-page); color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .brand .logo { font-weight: 700; font-size: 13px; letter-spacing: 0.06em; opacity: 0.75; }
+  .brand .name { font-weight: 700; font-size: 16px; }
+  nav.mainnav { display: flex; align-items: center; gap: 26px; }
+  nav.mainnav a.navlink {
+    font-size: 14px; color: rgba(255,255,255,0.75); text-decoration: none; font-weight: 500;
+  }
+  nav.mainnav a.navlink:hover { color: #fff; }
+  .header-right { display: flex; align-items: center; gap: 18px; }
+  .lang-switch { display: flex; gap: 2px; background: rgba(255,255,255,0.10); border-radius: 999px; padding: 3px; }
+  .lang-btn {
+    appearance: none; border: none; cursor: pointer; font-family: inherit;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.03em; padding: 5px 11px;
+    border-radius: 999px; background: transparent; color: rgba(255,255,255,0.6);
+  }
+  .lang-btn.active { background: var(--accent); color: #fff; }
+  @media (max-width: 720px) { nav.mainnav { display: none; } }
+
+  /* ---------- generic section chrome ---------- */
+  section { padding: 72px 0; }
+  .section-tight { padding: 56px 0; }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent-tint); margin-bottom: 10px;
+  }
+  h1 { font-size: 40px; font-weight: 700; line-height: 1.18; margin: 0 0 18px; color: #fff; }
+  h2 { font-size: 28px; font-weight: 600; line-height: 1.25; margin: 0 0 14px; color: #fff; }
+  h3 { font-size: 18px; font-weight: 600; margin: 0 0 8px; color: #fff; }
+  p.lede { font-size: 17px; font-weight: 300; color: var(--text-secondary); line-height: 1.6; margin: 0 0 30px; max-width: 640px; }
+  .btn {
+    appearance: none; border: none; cursor: pointer; text-decoration: none; display: inline-block;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    padding: 13px 24px; border-radius: 9px;
+    background: var(--accent); color: #fff;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: var(--accent-2); }
+  .btn.secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+  .btn.secondary:hover { background: rgba(255,255,255,0.06); }
+  .btn.on-light { background: transparent; color: #fff; border: 1.5px solid var(--border); }
+  .btn.on-light:hover { background: rgba(255,255,255,0.06); border-color: var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero { background: radial-gradient(120% 100% at 15% 0%, #1e1c27 0%, #000000 62%); padding: 88px 0 64px; }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { font-size: 12.5px; color: var(--accent-tint); background: var(--accent-wash); border-radius: 999px; padding: 5px 12px; font-weight: 600; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 30px; }
+
+  /* ---------- how it works ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 36px; }
+  .step { background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 20px; }
+  .step .num {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13.5px; margin-bottom: 14px;
+  }
+  .step p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+  @media (max-width: 860px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+
+  /* ---------- quiz section ---------- */
+  #quiz { background: var(--bg-alt); }
+  .quiz-intro { text-align: center; max-width: 620px; margin: 0 auto 32px; }
+  .quiz-card {
+    max-width: 640px; margin: 0 auto; background: var(--surface-card);
+    border: 1px solid var(--border); border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 8px 30px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .q-panel { padding: 34px 30px 30px; }
+  .q-progress-wrap { padding: 18px 30px 0; }
+  .q-progress-track { height: 6px; background: var(--gridline); border-radius: 999px; overflow: hidden; }
+  .q-progress-fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.25s ease; }
+  .q-progress-label { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .dim-tag {
+    display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--accent-tint); margin-bottom: 10px;
+  }
+  .q-text { font-size: 18px; font-weight: 600; margin: 0 0 22px; line-height: 1.4; color: #fff; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    text-align: left; border: 1.5px solid var(--border); background: var(--surface-card-alt);
+    border-radius: 10px; padding: 14px 16px; font-size: 14.5px; color: var(--text-primary);
+    cursor: pointer; font-family: inherit; line-height: 1.4;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .option:hover { border-color: var(--accent); background: var(--accent-wash); }
+  .option.selected { border-color: var(--accent); background: var(--accent-wash); font-weight: 600; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .field input {
+    width: 100%; font-family: inherit; font-size: 15px; padding: 11px 13px;
+    border: 1.5px solid var(--border); border-radius: 8px; color: var(--text-primary);
+    background: var(--surface-card-alt);
+  }
+  .field input::placeholder { color: var(--muted); }
+  .field input:focus { outline: none; border-color: var(--accent); }
+  .privacy-note { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 4px; }
+  .btn:disabled { background: var(--gridline); color: var(--muted); cursor: not-allowed; }
+
+  .band-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 10px;
+    border-radius: 999px; font-size: 13px; font-weight: 700; margin-bottom: 18px;
+    background: rgba(255,255,255,0.06); color: #fff;
+  }
+  .band-badge .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .score-row { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 6px; }
+  .score-hero { font-size: 56px; font-weight: 700; line-height: 1; color: #fff; }
+  .score-of { font-size: 16px; color: var(--muted); padding-bottom: 8px; }
+  .meter-track { height: 12px; background: var(--gridline); border-radius: 999px; overflow: hidden; margin: 14px 0 30px; }
+  .meter-fill { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+  .dim-chart { margin: 6px 0 28px; }
+  .dim-row { display: grid; grid-template-columns: 150px 1fr 40px; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .dim-label { font-size: 13px; color: var(--text-primary); font-weight: 600; }
+  .dim-track { height: 16px; background: var(--gridline); border-radius: 4px; }
+  .dim-fill { height: 16px; background: var(--series-1); border-radius: 4px 2px 2px 4px; transition: width 0.6s ease; }
+  .dim-val { font-size: 13px; color: var(--text-secondary); text-align: right; font-variant-numeric: tabular-nums; }
+  .result-copy { font-size: 15px; line-height: 1.6; margin-bottom: 10px; color: var(--text-secondary); }
+  .weak-note { font-size: 14px; line-height: 1.55; color: var(--accent-tint); background: var(--accent-wash); border-radius: 10px; padding: 14px 16px; margin: 18px 0 26px; }
+  .cta-box { background: var(--surface-card-alt); border-top: 3px solid var(--accent); border-radius: 12px; padding: 22px 24px; margin-top: 8px; }
+  .cta-box h3 { margin: 0 0 8px; font-size: 17px; color: #fff; }
+  .cta-box p { margin: 0 0 16px; font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+  .cta-box .btn { background: var(--accent); }
+  .cta-box .btn:hover { background: var(--accent-2); }
+  [hidden] { display: none !important; }
+  @media (max-width: 420px) { .dim-row { grid-template-columns: 108px 1fr 34px; } }
+
+  /* ---------- pricing ---------- */
+  #pricing { background: var(--bg-page); }
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+  .tier-card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 24px; display: flex; flex-direction: column;
+  }
+  .tier-card.featured { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-wash); }
+  .tier-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent-tint); margin-bottom: 6px; }
+  .tier-name { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+  .tier-price { font-size: 24px; font-weight: 700; color: #fff; }
+  .tier-range { font-size: 12.5px; color: var(--muted); margin: 3px 0 16px; font-style: italic; }
+  .tier-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px; }
+  .tier-bullets { list-style: none; padding: 0; margin: 0 0 22px; flex-grow: 1; }
+  .tier-bullets li { font-size: 13.5px; color: var(--text-primary); padding-left: 18px; position: relative; margin-bottom: 9px; line-height: 1.45; }
+  .tier-bullets li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+  .tier-num {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13.5px; margin-bottom: 14px;
+  }
+  .tier-card.muted-step .tier-num { background: var(--surface-card-alt); color: var(--accent-tint); border: 1px solid var(--border); }
+  .tier-note {
+    font-size: 12.5px; color: var(--muted); font-style: italic; line-height: 1.5;
+    margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--border);
+  }
+  .process-stepper { display: flex; align-items: flex-start; justify-content: center; margin: 40px 0 4px; }
+  .stepper-step { display: flex; flex-direction: column; align-items: center; width: 130px; }
+  .stepper-num {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+  }
+  .stepper-label { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: center; }
+  .stepper-line { flex: 1; height: 2px; background: var(--gridline); margin-top: 17px; max-width: 160px; }
+  .process-cta-row { text-align: center; margin-top: 40px; }
+  .process-cta-sub { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+  @media (max-width: 860px) { .tier-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) { .process-stepper { display: none; } }
+
+  /* ---------- trust ---------- */
+  #trust { background: var(--bg-alt); color: #fff; }
+  #trust h2 { color: #fff; }
+  .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 32px; }
+  .trust-item h3 { color: #fff; font-size: 16px; }
+  .trust-item p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+  @media (max-width: 860px) { .trust-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- final CTA ---------- */
+  #contact { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%); color: #fff; text-align: center; }
+  #contact h2 { color: #fff; }
+  #contact p.lede { color: rgba(255,255,255,0.9); margin-left: auto; margin-right: auto; }
+  #contact .btn { background: #000000; }
+  #contact .btn:hover { background: #1e1c27; }
+
+  footer { background: var(--bg-page); border-top: 1px solid rgba(255,255,255,0.08); color: var(--muted); padding: 28px 0; font-size: 12.5px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 24px; }
+  .footer-legal { display: flex; align-items: center; gap: 10px; }
+  .footer-legal a { color: var(--muted); text-decoration: none; }
+  .footer-legal a:hover { color: var(--accent-tint); text-decoration: underline; }
+  .footer-dot { color: var(--gridline); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span class="logo">VENTURE LABS</span>
+      <span class="name">AI Pulse</span>
+    </div>
+    <nav class="mainnav">
+      <a class="navlink" href="#how" id="navHow">—</a>
+      <a class="navlink" href="#pricing" id="navPricing">—</a>
+      <a class="navlink" href="#quiz" id="navQuiz">—</a>
+    </nav>
+    <div class="header-right">
+      <div class="lang-switch">
+        <button class="lang-btn" id="langBtnDe" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
+      </div>
+      <a class="btn on-light" href="#quiz" id="navCta" style="padding:9px 16px;font-size:13.5px;">—</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow" id="heroEyebrow">—</div>
+    <h1 id="heroH1">—</h1>
+    <p class="lede" id="heroLede">—</p>
+    <div class="cta-row">
+      <a class="btn" href="#quiz" id="heroCtaPrimary">—</a>
+      <a class="btn secondary" href="#contact" id="heroCtaSecondary">—</a>
+    </div>
+    <div class="pill-row">
+      <span class="pill" id="pill1">—</span>
+      <span class="pill" id="pill2">—</span>
+      <span class="pill" id="pill3">—</span>
+      <span class="pill" id="pill4">—</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section-tight">
+  <div class="wrap">
+    <div class="eyebrow" id="howEyebrow">—</div>
+    <h2 id="howH2">—</h2>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3 id="step1H">—</h3><p id="step1P">—</p></div>
+      <div class="step"><div class="num">2</div><h3 id="step2H">—</h3><p id="step2P">—</p></div>
+      <div class="step"><div class="num">3</div><h3 id="step3H">—</h3><p id="step3P">—</p></div>
+      <div class="step"><div class="num">4</div><h3 id="step4H">—</h3><p id="step4P">—</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="wrap">
+    <div class="quiz-intro">
+      <div class="eyebrow" id="quizEyebrow">—</div>
+      <h2 id="quizH2">—</h2>
+      <p class="lede" style="margin-left:auto;margin-right:auto;" id="quizLede">—</p>
+    </div>
+
+    <div class="quiz-card">
+      <!-- INTRO -->
+      <div id="screen-intro" class="q-panel">
+        <button class="btn" id="introBtn" onclick="startQuiz()" style="width:100%;">—</button>
+      </div>
+
+      <!-- QUIZ STEPS -->
+      <div id="screen-quiz" hidden>
+        <div class="q-progress-wrap">
+          <div class="q-progress-track"><div class="q-progress-fill" id="progressFill" style="width:0%"></div></div>
+          <div class="q-progress-label" id="progressLabel">—</div>
+        </div>
+        <div class="q-panel">
+          <div class="dim-tag" id="dimTag">—</div>
+          <p class="q-text" id="qText">—</p>
+          <div class="options" id="optionsWrap"></div>
+        </div>
+      </div>
+
+      <!-- EMAIL GATE -->
+      <div id="screen-email" class="q-panel" hidden>
+        <h3 style="font-size:19px;" id="emailH2">—</h3>
+        <p class="lede" style="font-size:14.5px;margin-bottom:20px;" id="emailLede">—</p>
+        <div class="field">
+          <label for="emailInput" id="emailLabelEmail">—</label>
+          <input type="email" id="emailInput" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="companyInput" id="emailLabelCompany">—</label>
+          <input type="text" id="companyInput" autocomplete="organization">
+        </div>
+        <button class="btn" id="emailSubmit" onclick="submitEmail()" disabled style="width:100%;">—</button>
+        <p class="privacy-note" id="emailPrivacy">—</p>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="screen-results" class="q-panel" hidden>
+        <div class="band-badge" id="bandBadge"><span class="dot" id="bandDot"></span><span id="bandLabel">—</span></div>
+        <div class="score-row">
+          <div class="score-hero" id="scoreHero">0</div>
+          <div class="score-of" id="scoreOf">—</div>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="meterFill" style="width:0%"></div></div>
+        <p class="result-copy" id="resultCopy">—</p>
+        <div class="weak-note" id="weakNote"></div>
+        <h3 style="margin-top:6px;font-size:17px;" id="dimsHeading">—</h3>
+        <div class="dim-chart" id="dimChart"></div>
+        <div class="cta-box" id="ctaBox">
+          <h3 id="ctaHeading">—</h3>
+          <p id="ctaBody">—</p>
+          <a class="btn" href="#pricing" id="ctaBookLink">—</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING / PROCESS -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow" id="pricingEyebrow">—</div>
+    <h2 id="pricingH2">—</h2>
+    <p class="lede" id="pricingLede">—</p>
+
+    <div class="process-stepper">
+      <div class="stepper-step"><div class="stepper-num">1</div><div class="stepper-label" id="stepperLabel1">—</div></div>
+      <div class="stepper-line"></div>
+      <div class="stepper-step"><div class="stepper-num">2</div><div class="stepper-label" id="stepperLabel2">—</div></div>
+      <div class="stepper-line"></div>
+      <div class="stepper-step"><div class="stepper-num">3</div><div class="stepper-label" id="stepperLabel3">—</div></div>
+    </div>
+
+    <div class="tier-grid">
+      <div class="tier-card featured">
+        <div class="tier-num">1</div>
+        <div class="tier-eyebrow" id="tier1Eyebrow">—</div>
+        <div class="tier-name" id="tier1Name">—</div>
+        <div class="tier-price" id="tier1Price">—</div>
+        <div class="tier-range" id="tier1Range">—</div>
+        <p class="tier-desc" id="tier1Desc">—</p>
+        <ul class="tier-bullets" id="tier1Bullets"></ul>
+        <p class="tier-note" id="tier1Note">—</p>
+      </div>
+      <div class="tier-card muted-step">
+        <div class="tier-num">2</div>
+        <div class="tier-eyebrow" id="tier2Eyebrow">—</div>
+        <div class="tier-name" id="tier2Name">—</div>
+        <div class="tier-price" id="tier2Price">—</div>
+        <div class="tier-range" id="tier2Range">—</div>
+        <p class="tier-desc" id="tier2Desc">—</p>
+        <ul class="tier-bullets" id="tier2Bullets"></ul>
+        <p class="tier-note" id="tier2Note">—</p>
+      </div>
+      <div class="tier-card muted-step">
+        <div class="tier-num">3</div>
+        <div class="tier-eyebrow" id="tier3Eyebrow">—</div>
+        <div class="tier-name" id="tier3Name">—</div>
+        <div class="tier-price" id="tier3Price">—</div>
+        <div class="tier-range" id="tier3Range">—</div>
+        <p class="tier-desc" id="tier3Desc">—</p>
+        <ul class="tier-bullets" id="tier3Bullets"></ul>
+        <p class="tier-note" id="tier3Note">—</p>
+      </div>
+    </div>
+
+    <div class="process-cta-row">
+      <a class="btn" href="#contact" id="processCta">—</a>
+      <p class="process-cta-sub" id="processCtaSub">—</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="wrap">
+    <div class="eyebrow" id="trustEyebrow" style="color:#8fd6d5;">—</div>
+    <h2 id="trustH2">—</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><h3 id="trust1H">—</h3><p id="trust1P">—</p></div>
+      <div class="trust-item"><h3 id="trust2H">—</h3><p id="trust2P">—</p></div>
+      <div class="trust-item"><h3 id="trust3H">—</h3><p id="trust3P">—</p></div>
+    </div>
+    <!-- Client logos / case studies go here once engagements are delivered and permission to feature them is confirmed. -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <h2 id="contactH2">—</h2>
+    <p class="lede" id="contactLede">—</p>
+    <a class="btn" id="contactCta" href="mailto:christian.wenzel@venturelabs.team?subject=Venture%20Labs%20AI%20Pulse">—</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span id="footerLeft">—</span>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="pulse-imprint.html" id="footerImprint">—</a>
+      <span class="footer-dot">·</span>
+      <a href="pulse-privacy.html" id="footerPrivacy">—</a>
+    </nav>
+    <span id="footerRight">—</span>
+  </div>
+</footer>
+
+<script>
+// ---------------------------------------------------------------------------
+// Venture Labs AI Pulse — landing page with embedded Pulse Score quiz.
+// Single self-contained file: no build step, no framework, no dependencies.
+// German is the default language; English is selectable via the DE/EN toggle.
+//
+// TODO before launch:
+//   - submitEmail() below does not post anywhere yet — connect to a CRM/email tool.
+//   - BOOKING_URL below is empty, so #contactCta falls back to a plain mailto: link.
+//     Once you set up a booking page (Google Calendar "Appointment schedule" or a tool
+//     like Calendly/Cal.com), paste its URL here and every "book a call" CTA on the page
+//     switches to it automatically — no other edits needed.
+const BOOKING_URL = "https://calendar.app.google/SsabAjwxnbUjhoGo8";
+// ---------------------------------------------------------------------------
+
+let lang = "de";
+
+const PAGE_STRINGS = {
+  de: {
+    navHow: "Wie es funktioniert", navPricing: "Ablauf", navQuiz: "Pulse Score", navCta: "Pulse Score starten",
+    heroEyebrow: "VENTURE LABS AI PULSE",
+    heroH1: "Der Gesundheitscheck für die KI-Systeme Ihres Unternehmens",
+    heroLede: "Venture Labs AI Pulse ist Ihr laufender KI-Check-up für den Mittelstand: Wir finden die Stellen mit dem größten Hebel, setzen sie mit Ihnen um und bleiben dran, wenn sich Ihr Geschäft und die Technologie weiterentwickeln.",
+    heroCtaPrimary: "Kostenlosen Pulse Score starten ↓", heroCtaSecondary: "Termin vereinbaren",
+    pill1: "5 Bereiche", pill2: "10 Fragen", pill3: "~5 Minuten", pill4: "Kostenlos",
+    howEyebrow: "METHODIK", howH2: "So funktioniert Pulse",
+    step1H: "Diagnose", step1P: "Wir analysieren Daten, Prozesse, Team und Tools in 1–2 Tagen und zeigen, wo KI den größten Hebel bietet.",
+    step2H: "Empfehlung", step2P: "Sie erhalten eine priorisierte Roadmap statt einer generischen Strategiepräsentation.",
+    step3H: "Umsetzung", step3P: "Wir bauen die 1–3 wichtigsten Anwendungsfälle in einem 4-wöchigen Sprint.",
+    step4H: "Begleitung", step4P: "Danach bleiben wir dran: monatliche Check-ins, ein Dashboard und vierteljährliche Reviews.",
+    quizEyebrow: "KOSTENLOSER SELBSTTEST", quizH2: "Wie gesund ist Ihr KI-Einsatz?",
+    quizLede: "Beantworten Sie 10 kurze Fragen zu fünf Bereichen und erhalten Sie sofort Ihren Pulse Score sowie eine kurze, persönliche Einschätzung.",
+    introBtn: "Meinen Pulse Score prüfen →",
+    progressLabel: (n, total) => `Frage ${n} von ${total}`,
+    emailH2: "Ihr Pulse Score ist bereit.",
+    emailLede: "Geben Sie Ihre E-Mail-Adresse ein, um Ihren Score, Ihre Auswertung nach fünf Bereichen zu sehen und das einseitige Benchmark-PDF zugeschickt zu bekommen.",
+    emailLabelEmail: "Geschäftliche E-Mail-Adresse", emailPlaceholderEmail: "sie@unternehmen.de",
+    emailLabelCompany: "Unternehmen (optional)", emailPlaceholderCompany: "Name Ihres Unternehmens",
+    emailBtn: "Meinen Pulse Score ansehen →",
+    emailPrivacy: "Wird ausschließlich zum Versand Ihres Benchmarks und gelegentlicher relevanter Folge-Infos genutzt – jederzeit abbestellbar.",
+    scoreOf: "/ 100 Pulse Score", dimsHeading: "Ihre Auswertung nach fünf Bereichen",
+    ctaBookLink: "Nächste Schritte ansehen →",
+    weakNote: (a, b) => `Ihre zwei schwächsten Bereiche: ${a} und ${b}. Genau hier würde ein Pulse Check ansetzen.`,
+    pricingEyebrow: "ABLAUF", pricingH2: "Ein Prozess mit drei Schritten",
+    pricingLede: "Jeder Schritt baut auf dem vorherigen auf. Sie entscheiden nach jedem Schritt, ob es weitergeht – ganz ohne Verpflichtung zum nächsten.",
+    stepperLabel1: "Einstieg", stepperLabel2: "Falls sinnvoll", stepperLabel3: "Nach dem Build",
+    tier1Eyebrow: "SCHRITT 1 · EINSTIEG", tier1Name: "Pulse Check", tier1Price: "Ab 2.900 €", tier1Range: "Festpreis · Spanne 2.900–4.900 €",
+    tier1Desc: "1–2 Tage strukturierte Analyse über Ihre Abteilungen hinweg, geliefert als priorisierte Roadmap.",
+    tier1Bullets: ["AI Vital Signs Report", "Priorisierter Opportunity-Backlog", "Kein 40-seitiger Bericht, den niemand liest"],
+    tier1Note: "Der einzige Schritt, den Sie direkt buchen.",
+    tier2Eyebrow: "SCHRITT 2 · FALLS SINNVOLL", tier2Name: "Pulse Build", tier2Price: "Ab 15.000 €", tier2Range: "Festpreis für 4-Wochen-Sprint · Spanne 9.000–28.000 €",
+    tier2Desc: "Sobald der Pulse Check zeigt, wo der größte Hebel liegt, setzen wir gemeinsam die 1–3 wichtigsten Anwendungsfälle um.",
+    tier2Bullets: ["4 Wochen Standardumfang, erweiterbar auf 8", "Dedizierter Entwickler, feste Ansprechperson während der gesamten Umsetzung", "Festpreis mit klar definiertem Umfang – keine versteckten Kosten"],
+    tier2Note: "Wird nach Ihrem Pulse Check gemeinsam entschieden – kein eigenständiges Angebot.",
+    tier3Eyebrow: "SCHRITT 3 · NACH DEM BUILD", tier3Name: "Pulse Care", tier3Price: "Ab 2.500 €/Monat", tier3Range: "Spanne 1.800–4.500 €/Monat · Mindestlaufzeit 6 Monate",
+    tier3Desc: "Sobald eine erste Lösung läuft, halten wir sie mit Ihnen aktuell: 2 Termine pro Monat plus Dashboard-Zugriff.",
+    tier3Bullets: ["Monatliches Dashboard-Tracking", "Vierteljährliches Deep-Review", "Jährlicher Pulse-Check-Refresh"],
+    tier3Note: "Relevant, sobald wir gemeinsam etwas gebaut haben.",
+    processCta: "Kostenloses Erstgespräch vereinbaren →",
+    processCtaSub: "Wir besprechen gemeinsam, welcher Schritt für Sie der richtige Einstieg ist.",
+    trustEyebrow: "WARUM VENTURE LABS", trustH2: "Aufgebaut auf echter Erfahrung, nicht auf Buzzwords",
+    trust1H: "Praxiserfahrung statt Theorie", trust1P: "Aufgebaut von einem erfahrenen Unternehmer und IT-Berater, der weiß, wie man KI-Vorhaben tatsächlich umsetzt – nicht nur präsentiert.",
+    trust2H: "Ein klarer, wiederholbarer Prozess", trust2P: "Diagnose, Empfehlung, Umsetzung, Begleitung – für jeden Kunden gleich strukturiert, damit Sie jederzeit wissen, woran Sie sind.",
+    trust3H: "Governance von Anfang an mitgedacht", trust3P: "EU AI Act und DSGVO sind Teil der Diagnose, nicht ein nachträglicher Gedanke.",
+    contactH2: "Bereit für Ihren Pulse Check?", contactLede: "Buchen Sie ein unverbindliches Erstgespräch oder schreiben Sie direkt.",
+    contactCta: "Termin vereinbaren",
+    footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerRight: "Venture Labs AI Pulse ist ein Angebot der Venture Labs GmbH.",
+    footerImprint: "Impressum", footerPrivacy: "Datenschutz",
+    devAlert: "In der Produktivversion: verlinkt zum Buchungslink für Pulse Check / Pulse Care.",
+  },
+  en: {
+    navHow: "How it works", navPricing: "Process", navQuiz: "Pulse Score", navCta: "Start Pulse Score",
+    heroEyebrow: "VENTURE LABS AI PULSE",
+    heroH1: "The health check for your company's AI systems",
+    heroLede: "Venture Labs AI Pulse is your ongoing AI check-up for the Mittelstand: we find where the leverage is, build it with you, and stay involved as your business and the technology keep moving.",
+    heroCtaPrimary: "Start your free Pulse Score ↓", heroCtaSecondary: "Book a call",
+    pill1: "5 dimensions", pill2: "10 questions", pill3: "~5 minutes", pill4: "Free",
+    howEyebrow: "METHODOLOGY", howH2: "How Pulse works",
+    step1H: "Diagnose", step1P: "We analyse your data, processes, team and tools in 1–2 days and show you where AI creates the most leverage.",
+    step2H: "Prescribe", step2P: "You get a prioritised roadmap, not a generic strategy deck.",
+    step3H: "Build", step3P: "We build the 1–3 highest-priority use cases in a 4-week sprint.",
+    step4H: "Monitor", step4P: "Then we stay involved: monthly check-ins, a shared dashboard, and quarterly reviews.",
+    quizEyebrow: "FREE SELF-ASSESSMENT", quizH2: "How healthy is your AI use?",
+    quizLede: "Answer 10 quick questions across five dimensions and get an instant Pulse Score plus a short personalised benchmark.",
+    introBtn: "Check my Pulse Score →",
+    progressLabel: (n, total) => `Question ${n} of ${total}`,
+    emailH2: "Your Pulse Score is ready.",
+    emailLede: "Enter your email to see your score, your five-dimension breakdown, and get the one-page benchmark PDF sent over.",
+    emailLabelEmail: "Work email", emailPlaceholderEmail: "you@company.com",
+    emailLabelCompany: "Company (optional)", emailPlaceholderCompany: "Your company name",
+    emailBtn: "See my Pulse Score →",
+    emailPrivacy: "Used only to send your benchmark and occasional relevant follow-up — unsubscribe any time.",
+    scoreOf: "/ 100 Pulse Score", dimsHeading: "Your five-dimension breakdown",
+    ctaBookLink: "See the next steps →",
+    weakNote: (a, b) => `Your two lowest-scoring dimensions: ${a} and ${b}. A Pulse Check would start exactly there.`,
+    pricingEyebrow: "PROCESS", pricingH2: "A three-step process",
+    pricingLede: "Each step builds on the last. You decide after every step whether to continue — no obligation to move to the next one.",
+    stepperLabel1: "Starting point", stepperLabel2: "If it makes sense", stepperLabel3: "After the build",
+    tier1Eyebrow: "STEP 1 · STARTING POINT", tier1Name: "Pulse Check", tier1Price: "Starting at €2,900", tier1Range: "Fixed fee · full range €2,900–4,900",
+    tier1Desc: "1–2 days of structured analysis across your departments, delivered as a prioritised roadmap.",
+    tier1Bullets: ["AI Vital Signs Report", "Prioritised opportunity backlog", "Not a 40-page report nobody reads"],
+    tier1Note: "The only step you book directly.",
+    tier2Eyebrow: "STEP 2 · IF IT MAKES SENSE", tier2Name: "Pulse Build", tier2Price: "Starting at €15,000", tier2Range: "Fixed fee for a 4-week sprint · full range €9,000–28,000",
+    tier2Desc: "Once your Pulse Check has shown where the leverage is, we build the 1–3 highest-priority use cases together.",
+    tier2Bullets: ["4-week standard scope, extendable to 8", "A dedicated developer and a single point of contact throughout", "Fixed price with a clearly defined scope — no hidden costs"],
+    tier2Note: "Decided together after your Pulse Check — not a standalone purchase.",
+    tier3Eyebrow: "STEP 3 · AFTER THE BUILD", tier3Name: "Pulse Care", tier3Price: "Starting at €2,500/month", tier3Range: "Full range €1,800–4,500/month · 6-month minimum",
+    tier3Desc: "Once a first solution is live, we keep it current with you: 2 scheduled calls a month plus dashboard access.",
+    tier3Bullets: ["Monthly dashboard tracking", "Quarterly deep review", "Annual Pulse Check refresh"],
+    tier3Note: "Relevant once we've built something together.",
+    processCta: "Book a free first call →",
+    processCtaSub: "We'll work out together which step is the right starting point for you.",
+    trustEyebrow: "WHY VENTURE LABS", trustH2: "Built on real experience, not buzzwords",
+    trust1H: "Real operating experience, not theory", trust1P: "Built by an experienced founder and IT consultant who knows how to actually ship AI projects — not just present a slide deck.",
+    trust2H: "A clear, repeatable process", trust2P: "Diagnose, prescribe, build, monitor — structured the same way for every client, so you always know what's next.",
+    trust3H: "Governance built in from day one", trust3P: "The EU AI Act and GDPR are part of the diagnosis, not an afterthought.",
+    contactH2: "Ready for your Pulse Check?", contactLede: "Book a no-obligation first call, or just write to us directly.",
+    contactCta: "Book a call",
+    footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerRight: "Venture Labs AI Pulse is an offering of Venture Labs GmbH.",
+    footerImprint: "Imprint", footerPrivacy: "Privacy",
+    devAlert: "In production: routes to the Pulse Check / Pulse Care booking link.",
+  },
+};
+
+const DIMENSIONS = {
+  data:       { de: "Datenbasis",          en: "Data Readiness" },
+  process:    { de: "Prozesse",            en: "Process Fit" },
+  team:       { de: "Team",                en: "Team Readiness" },
+  tools:      { de: "Tool-Stack",          en: "Tool Stack Maturity" },
+  governance: { de: "Governance & Risiko", en: "Governance & Risk" },
+};
+
+const QUESTIONS = [
+  { dim: "data",
+    text: { de: "Wie würden Sie die Daten Ihres Unternehmens – Kundendaten, Betriebsdaten, Dokumente – heute beschreiben?",
+            en: "How would you describe your company's data — customer records, operations data, documents — today?" },
+    options: [
+      { de: "Verteilt über verschiedene Systeme, größtenteils auf Papier oder in einzelnen Postfächern und Tabellen", en: "Scattered across systems, mostly on paper or in individual inboxes and spreadsheets" },
+      { de: "In einigen Systemen zentralisiert, aber nicht einheitlich strukturiert oder gepflegt", en: "Centralised in some systems, but not consistently structured or maintained" },
+      { de: "Größtenteils zentralisiert und gut strukturiert, mit einigen Lücken", en: "Mostly centralised and reasonably well-structured, with some gaps" },
+      { de: "Zentralisiert, strukturiert und aktiv gepflegt mit klarer Verantwortlichkeit", en: "Centralised, structured, and actively maintained with clear ownership" },
+    ]},
+  { dim: "data",
+    text: { de: "Wenn jemand jetzt sofort alle Informationen zu einem bestimmten Kunden oder Projekt zusammentragen müsste, wie lange würde das dauern?",
+            en: "If someone needed to pull together everything on a specific customer or project right now, how long would it take?" },
+    options: [
+      { de: "Tage – die Informationen sind über Personen und Systeme verstreut", en: "Days — it's scattered across people and systems" },
+      { de: "Ein paar Stunden manueller Suche", en: "A few hours of manual digging" },
+      { de: "Unter einer Stunde, meist in ein oder zwei Systemen", en: "Under an hour, mostly in one or two systems" },
+      { de: "Minuten – alles ist an einem Ort zugänglich", en: "Minutes — it's accessible in one place" },
+    ]},
+  { dim: "process",
+    text: { de: "Denken Sie an Ihre wiederkehrendste, zeitaufwändigste operative Aufgabe. Wie wird sie heute erledigt?",
+            en: "Think about your most repetitive, time-consuming operational task. How is it handled today?" },
+    options: [
+      { de: "Vollständig manuell, seit Jahren auf die gleiche Weise", en: "Entirely manual, done the same way for years" },
+      { de: "Teilweise durch einfache Tools unterstützt (Tabellen, Vorlagen), aber weiterhin manuell", en: "Partially supported by basic tools (spreadsheets, templates) but still manual" },
+      { de: "Etwas Automatisierung oder Softwareunterstützung, aber regelmäßig manuelle Korrekturen nötig", en: "Some automation or software support, but needs regular manual correction" },
+      { de: "Gut automatisiert, selten manueller Eingriff nötig", en: "Well automated, rarely needs manual intervention" },
+    ]},
+  { dim: "process",
+    text: { de: "Hat schon einmal jemand Schritt für Schritt dokumentiert, wie Ihre Kernprozesse (z. B. Angebotserstellung, Serviceplanung, Auftragsabwicklung) tatsächlich end-to-end ablaufen?",
+            en: "Has anyone mapped out, step by step, how your core processes (e.g. quoting, service scheduling, order processing) actually work end to end?" },
+    options: [
+      { de: "Nein, das Wissen steckt in den Köpfen der Mitarbeitenden", en: "No, it lives in people's heads" },
+      { de: "Grob schon, aber veraltet oder unvollständig", en: "Roughly, but it's outdated or incomplete" },
+      { de: "Ja, für ein oder zwei Kernprozesse", en: "Yes, for one or two key processes" },
+      { de: "Ja, dokumentiert und regelmäßig überprüft", en: "Yes, documented and regularly reviewed" },
+    ]},
+  { dim: "team",
+    text: { de: "Wie steht Ihr Team aktuell zum Einsatz von KI-Tools im Arbeitsalltag?",
+            en: "How does your team currently feel about using AI tools in their daily work?" },
+    options: [
+      { de: "Skeptisch oder ablehnend", en: "Skeptical or actively resistant" },
+      { de: "Neugierig, aber unsicher, wo man anfangen soll", en: "Curious, but unsure where to start" },
+      { de: "Einzelne experimentieren bereits auf eigene Faust", en: "A few people already experimenting on their own" },
+      { de: "Aktive Nutzung von KI-Tools, mit Unterstützung durch die Geschäftsführung", en: "Actively using AI tools, with encouragement from leadership" },
+    ]},
+  { dim: "team",
+    text: { de: "Gibt es in Ihrem Unternehmen jemanden – auch informell –, der für die Erkundung oder Einführung neuer KI- bzw. digitaler Tools verantwortlich ist?",
+            en: "Is there anyone in your company — even informally — responsible for exploring or championing new AI or digital tools?" },
+    options: [
+      { de: "Niemanden", en: "No one" },
+      { de: "Jemand zeigt Interesse, es gehört aber nicht zur eigentlichen Rolle", en: "Someone shows interest, but it's not part of their role" },
+      { de: "Ja, informell, neben anderen Aufgaben", en: "Yes, informally, alongside other responsibilities" },
+      { de: "Ja, es ist expliziter Teil der Rolle einer Person", en: "Yes, it's an explicit part of someone's role" },
+    ]},
+  { dim: "tools",
+    text: { de: "Wie viele der täglich genutzten Softwaretools (CRM, ERP, Terminplanung, Kommunikation) tauschen automatisch Daten miteinander aus?",
+            en: "How many of the software tools you use daily (CRM, ERP, scheduling, communication) actually talk to each other automatically?" },
+    options: [
+      { de: "Keine – alles wird manuell neu eingegeben", en: "None — everything is manual re-entry" },
+      { de: "Ein bis zwei Integrationen, eher ad hoc eingerichtet", en: "One or two integrations, set up ad hoc" },
+      { de: "Mehrere Kernsysteme sind verbunden", en: "Several core systems are connected" },
+      { de: "Die meisten Systeme sind zu einer einheitlichen Toollandschaft verbunden", en: "Most systems are integrated into one coherent stack" },
+    ]},
+  { dim: "tools",
+    text: { de: "Haben Sie bereits KI-Funktionen geprüft, die in Ihrer vorhandenen Software integriert sind (z. B. in CRM, ERP oder Microsoft/Google-Tools)?",
+            en: "Have you evaluated any AI features already built into the software you use (e.g. your CRM, ERP, or Microsoft/Google tools)?" },
+    options: [
+      { de: "Keine bekannt", en: "Not aware of any" },
+      { de: "Bekannt, aber nie ausprobiert", en: "Aware, but never tried them" },
+      { de: "Einige ausprobiert, gemischte Ergebnisse", en: "Tried a few, mixed results" },
+      { de: "Aktive Nutzung integrierter KI-Funktionen", en: "Actively using built-in AI features" },
+    ]},
+  { dim: "governance",
+    text: { de: "Wenn ein Mitarbeiter heute ein öffentliches KI-Tool (wie ChatGPT) mit Kunden- oder Geschäftsdaten nutzen würde – wüsste Ihr Unternehmen davon?",
+            en: "If an employee started using a public AI tool (like ChatGPT) with customer or business data today, would your company know?" },
+    options: [
+      { de: "Keine Richtlinie oder Sensibilisierung vorhanden", en: "No policy or awareness at all" },
+      { de: "Es gibt ein informelles Verständnis, aber nichts Schriftliches", en: "There's an informal understanding, nothing written down" },
+      { de: "Es gibt eine schriftliche Richtlinie, die aber nicht aktiv durchgesetzt oder kommuniziert wird", en: "There's a written policy, but it's not actively enforced or communicated" },
+      { de: "Es gibt eine klare, kommunizierte Richtlinie, die aktiv befolgt wird", en: "There's a clear, communicated policy that's actively followed" },
+    ]},
+  { dim: "governance",
+    text: { de: "Wie vertraut ist Ihre Geschäftsführung mit den Auswirkungen des EU AI Act oder der DSGVO auf den KI-Einsatz in Ihrem Unternehmen?",
+            en: "How familiar is your leadership team with what the EU AI Act or GDPR means for using AI in your business?" },
+    options: [
+      { de: "Gar nicht", en: "Not at all" },
+      { de: "Vage bewusst, dass es das gibt", en: "Vaguely aware it exists" },
+      { de: "Versteht die Grundlagen", en: "Generally understand the basics" },
+      { de: "Berücksichtigt dies aktiv bei Entscheidungen über neue Tools", en: "Actively factor it into decisions about new tools" },
+    ]},
+];
+
+const BANDS = [
+  { min: 80, max: 100, key: "good",
+    name: { de: "Starker Puls", en: "Strong Pulse" },
+    copy: { de: "Ihre Systeme, Ihr Team und Ihre Prozesse sind in einem wirklich guten Zustand – Sie sind den meisten Unternehmen Ihrer Größe voraus. In dieser Phase liegt das eigentliche Risiko in der Selbstzufriedenheit: der Annahme, dass die heutige Aufstellung auch in zwölf Monaten noch die richtige ist.",
+           en: "Your systems, team and processes are in genuinely good shape — you're ahead of most companies your size. At this stage the real risk is complacency: assuming today's setup will still be the right one in twelve months." },
+    cta: { heading: { de: "Der nächste Schritt ist Monitoring, nicht noch ein Audit.", en: "The next step is monitoring, not another audit." },
+           body: { de: "Sie brauchen keine große Diagnose – sondern jemanden, der im Blick behält, wie sich Ihr Unternehmen und die verfügbaren KI-Tools weiterentwickeln. Genau dafür gibt es Pulse Care.",
+                   en: "You don't need a big diagnostic — you need someone keeping an eye on this as your business and the available AI tools both keep moving. That's exactly what Pulse Care is for." } } },
+  { min: 60, max: 79, key: "warning",
+    name: { de: "Stabiler Puls", en: "Steady Pulse" },
+    copy: { de: "Sie sind den meisten Unternehmen Ihrer Größe voraus. Die Chance liegt jetzt nicht darin, grundlegende Lücken zu schließen, sondern gezielt zu entscheiden, wo KI als Nächstes den größten Hebel bietet – ohne unnötige Komplexität aufzubauen, die sich nicht auszahlt.",
+           en: "You're ahead of most companies your size. The opportunity now isn't fixing broken basics — it's making deliberate choices about where AI creates the most leverage next, without adding complexity that doesn't pay for itself." },
+    cta: { heading: { de: "Lassen Sie uns den größten Hebel finden.", en: "Let's find the highest-leverage next step." },
+           body: { de: "Ein gezielter Pulse Check zeigt genau, welche verbleibenden Lücken es zuerst zu schließen lohnt – und welche nicht.",
+                   en: "A focused Pulse Check will show you exactly where the remaining gaps are worth closing first, and where they're not." } } },
+  { min: 40, max: 59, key: "serious",
+    name: { de: "Unregelmäßiger Puls", en: "Irregular Pulse" },
+    copy: { de: "Sie haben echte Grundlagen geschaffen, aber sie sind uneinheitlich – gute Ansätze neben echten Lücken. In dieser Phase beginnt ein unsystematisches Vorgehen bei KI oft, mehr zu kosten, als es hilft.",
+           en: "You've got real foundations in place, but they're inconsistent — pockets of good practice next to real gaps. This is usually the stage where a scattershot approach to AI starts costing more than it helps." },
+    cta: { heading: { de: "Ein Pulse Check zeigt, wo Sie zuerst ansetzen sollten.", en: "A Pulse Check will show you where to focus first." },
+           body: { de: "Ein bis zwei Tage, strukturiert über Ihre Abteilungen hinweg, als priorisierte Roadmap – keine weitere vage Strategiepräsentation.",
+                   en: "One to two days, structured across your departments, delivered as a prioritised roadmap — not another vague strategy deck." } } },
+  { min: 0, max: 39, key: "critical",
+    name: { de: "Erste Anzeichen", en: "Early Signs" },
+    copy: { de: "Ihr Unternehmen steht ganz am Anfang seiner KI-Reise – ein völlig normaler Ausgangspunkt. Das Risiko liegt nicht darin, heute im Rückstand zu sein, sondern dort zu bleiben, während Wettbewerber und Kunden schneller vorankommen.",
+           en: "Your business is at the very beginning of its AI journey — a completely normal place to be. The risk isn't being behind today; it's staying there while competitors and customers move faster." },
+    cta: { heading: { de: "Sehen Sie genau, wo Sie angreifbar sind und was zuerst zu tun ist.", en: "See exactly where you're exposed and what to fix first." },
+           body: { de: "Ein Pulse Check gibt Ihnen einen klaren, priorisierten Ausgangspunkt – keinen 40-seitigen Bericht, den niemand liest.",
+                   en: "A Pulse Check gives you a clear, prioritised starting point — not a 40-page report nobody reads." } } },
+];
+
+const STATUS_COLOR = { good: "var(--status-good)", warning: "var(--status-warning)", serious: "var(--status-serious)", critical: "var(--status-critical)" };
+
+let current = 0;
+const answers = new Array(QUESTIONS.length).fill(null);
+let quizStarted = false;
+let resultsShown = false;
+
+function setLang(newLang) {
+  lang = newLang;
+  document.documentElement.lang = lang;
+  document.getElementById("langBtnDe").classList.toggle("active", lang === "de");
+  document.getElementById("langBtnEn").classList.toggle("active", lang === "en");
+  applyStaticStrings();
+  if (!document.getElementById("screen-quiz").hidden) renderQuestion();
+  if (resultsShown) renderResults();
+}
+
+function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+function setList(id, items) {
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  items.forEach(t => { const li = document.createElement("li"); li.textContent = t; el.appendChild(li); });
+}
+
+function applyStaticStrings() {
+  const s = PAGE_STRINGS[lang];
+  setText("navHow", s.navHow); setText("navPricing", s.navPricing); setText("navQuiz", s.navQuiz); setText("navCta", s.navCta);
+  setText("heroEyebrow", s.heroEyebrow); setText("heroH1", s.heroH1); setText("heroLede", s.heroLede);
+  setText("heroCtaPrimary", s.heroCtaPrimary); setText("heroCtaSecondary", s.heroCtaSecondary);
+  setText("pill1", s.pill1); setText("pill2", s.pill2); setText("pill3", s.pill3); setText("pill4", s.pill4);
+  setText("howEyebrow", s.howEyebrow); setText("howH2", s.howH2);
+  setText("step1H", s.step1H); setText("step1P", s.step1P);
+  setText("step2H", s.step2H); setText("step2P", s.step2P);
+  setText("step3H", s.step3H); setText("step3P", s.step3P);
+  setText("step4H", s.step4H); setText("step4P", s.step4P);
+  setText("quizEyebrow", s.quizEyebrow); setText("quizH2", s.quizH2); setText("quizLede", s.quizLede);
+  setText("introBtn", s.introBtn);
+  setText("emailH2", s.emailH2); setText("emailLede", s.emailLede);
+  setText("emailLabelEmail", s.emailLabelEmail); document.getElementById("emailInput").placeholder = s.emailPlaceholderEmail;
+  setText("emailLabelCompany", s.emailLabelCompany); document.getElementById("companyInput").placeholder = s.emailPlaceholderCompany;
+  setText("emailSubmit", s.emailBtn); setText("emailPrivacy", s.emailPrivacy);
+  setText("scoreOf", s.scoreOf); setText("dimsHeading", s.dimsHeading); setText("ctaBookLink", s.ctaBookLink);
+  setText("pricingEyebrow", s.pricingEyebrow); setText("pricingH2", s.pricingH2); setText("pricingLede", s.pricingLede);
+  setText("stepperLabel1", s.stepperLabel1); setText("stepperLabel2", s.stepperLabel2); setText("stepperLabel3", s.stepperLabel3);
+  setText("tier1Eyebrow", s.tier1Eyebrow); setText("tier1Name", s.tier1Name); setText("tier1Price", s.tier1Price);
+  setText("tier1Range", s.tier1Range); setText("tier1Desc", s.tier1Desc); setList("tier1Bullets", s.tier1Bullets); setText("tier1Note", s.tier1Note);
+  setText("tier2Eyebrow", s.tier2Eyebrow); setText("tier2Name", s.tier2Name); setText("tier2Price", s.tier2Price);
+  setText("tier2Range", s.tier2Range); setText("tier2Desc", s.tier2Desc); setList("tier2Bullets", s.tier2Bullets); setText("tier2Note", s.tier2Note);
+  setText("tier3Eyebrow", s.tier3Eyebrow); setText("tier3Name", s.tier3Name); setText("tier3Price", s.tier3Price);
+  setText("tier3Range", s.tier3Range); setText("tier3Desc", s.tier3Desc); setList("tier3Bullets", s.tier3Bullets); setText("tier3Note", s.tier3Note);
+  setText("processCta", s.processCta); setText("processCtaSub", s.processCtaSub);
+  setText("trustEyebrow", s.trustEyebrow); setText("trustH2", s.trustH2);
+  setText("trust1H", s.trust1H); setText("trust1P", s.trust1P);
+  setText("trust2H", s.trust2H); setText("trust2P", s.trust2P);
+  setText("trust3H", s.trust3H); setText("trust3P", s.trust3P);
+  setText("contactH2", s.contactH2); setText("contactLede", s.contactLede); setText("contactCta", s.contactCta);
+  setText("footerLeft", s.footerLeft); setText("footerRight", s.footerRight);
+  setText("footerImprint", s.footerImprint); setText("footerPrivacy", s.footerPrivacy);
+
+  if (BOOKING_URL) {
+    const cta = document.getElementById("contactCta");
+    cta.href = BOOKING_URL;
+    cta.target = "_blank";
+    cta.rel = "noopener";
+  }
+
+  if (quizStarted && !document.getElementById("screen-quiz").hidden) {
+    const n = Math.min(current + 1, QUESTIONS.length);
+    document.getElementById("progressLabel").textContent = s.progressLabel(n, QUESTIONS.length);
+  }
+}
+
+function startQuiz() {
+  quizStarted = true;
+  document.getElementById("screen-intro").hidden = true;
+  document.getElementById("screen-quiz").hidden = false;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const s = PAGE_STRINGS[lang];
+  document.getElementById("dimTag").textContent = DIMENSIONS[q.dim][lang];
+  document.getElementById("qText").textContent = q.text[lang];
+  document.getElementById("progressLabel").textContent = s.progressLabel(current + 1, QUESTIONS.length);
+  document.getElementById("progressFill").style.width = `${(current / QUESTIONS.length) * 100}%`;
+  const wrap = document.getElementById("optionsWrap");
+  wrap.innerHTML = "";
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "option" + (answers[current] === idx ? " selected" : "");
+    btn.textContent = opt[lang];
+    btn.onclick = () => selectOption(idx);
+    wrap.appendChild(btn);
+  });
+}
+
+function selectOption(idx) {
+  answers[current] = idx;
+  setTimeout(() => {
+    if (current < QUESTIONS.length - 1) {
+      current += 1;
+      renderQuestion();
+    } else {
+      document.getElementById("progressFill").style.width = "100%";
+      document.getElementById("progressLabel").textContent = PAGE_STRINGS[lang].progressLabel(QUESTIONS.length, QUESTIONS.length);
+      document.getElementById("screen-quiz").hidden = true;
+      document.getElementById("screen-email").hidden = false;
+    }
+  }, 180);
+}
+
+document.addEventListener("input", (e) => {
+  if (e.target.id === "emailInput") {
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value);
+    document.getElementById("emailSubmit").disabled = !valid;
+  }
+});
+
+function submitEmail() {
+  // In production: POST { email, company, answers, score } to the CRM here.
+  document.getElementById("screen-email").hidden = true;
+  document.getElementById("screen-results").hidden = false;
+  resultsShown = true;
+  renderResults();
+}
+
+function computeScores() {
+  const dimTotals = { data: 0, process: 0, team: 0, tools: 0, governance: 0 };
+  QUESTIONS.forEach((q, i) => { dimTotals[q.dim] += answers[i] === null ? 0 : answers[i]; });
+  const maxTotal = QUESTIONS.length * 3;
+  const rawTotal = Object.values(dimTotals).reduce((a, b) => a + b, 0);
+  return { dimTotals, overall: Math.round((rawTotal / maxTotal) * 100) };
+}
+
+function bandFor(score) { return BANDS.find(b => score >= b.min && score <= b.max) || BANDS[BANDS.length - 1]; }
+
+function renderResults() {
+  const s = PAGE_STRINGS[lang];
+  const { dimTotals, overall } = computeScores();
+  const band = bandFor(overall);
+  const color = STATUS_COLOR[band.key];
+
+  document.getElementById("scoreHero").textContent = overall;
+  document.getElementById("meterFill").style.width = `${overall}%`;
+  document.getElementById("meterFill").style.background = color;
+  document.getElementById("bandDot").style.background = color;
+  document.getElementById("bandLabel").textContent = band.name[lang];
+  document.getElementById("resultCopy").textContent = band.copy[lang];
+
+  const dimEntries = Object.entries(dimTotals).sort((a, b) => a[1] - b[1]);
+  const weakest = dimEntries.slice(0, 2).map(([key]) => DIMENSIONS[key][lang]);
+  document.getElementById("weakNote").textContent = s.weakNote(weakest[0], weakest[1]);
+
+  const chart = document.getElementById("dimChart");
+  chart.innerHTML = "";
+  Object.entries(dimTotals).forEach(([key, val]) => {
+    const pct = (val / 6) * 100;
+    const row = document.createElement("div");
+    row.className = "dim-row";
+    row.innerHTML = `<div class="dim-label">${DIMENSIONS[key][lang]}</div><div class="dim-track"><div class="dim-fill" style="width:${pct}%"></div></div><div class="dim-val">${val}/6</div>`;
+    chart.appendChild(row);
+  });
+
+  document.getElementById("ctaHeading").textContent = band.cta.heading[lang];
+  document.getElementById("ctaBody").textContent = band.cta.body[lang];
+}
+
+setLang("de");
+</script>
+</body>
+</html>

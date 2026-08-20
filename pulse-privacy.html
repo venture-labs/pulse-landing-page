@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz — Venture Labs AI Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #000000;
+    --bg-alt: #1e1c27;
+    --surface-card: #272530;
+    --accent: #a318f8;
+    --accent-2: #8129ff;
+    --accent-tint: #d9aeff;
+    --text-primary: #ffffff;
+    --text-secondary: #c7c4d1;
+    --muted: #928da3;
+    --border: rgba(255,255,255,0.12);
+    --gridline: #3d3547;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent-tint); }
+
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg-page); border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  header .wrap { max-width: 1080px; display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; }
+  .brand .logo { font-weight: 700; font-size: 13px; letter-spacing: 0.06em; opacity: 0.75; color: #fff; }
+  .brand .name { font-weight: 700; font-size: 16px; color: #fff; }
+  .header-right { display: flex; align-items: center; gap: 18px; }
+  .back-link { font-size: 13.5px; color: rgba(255,255,255,0.75); text-decoration: none; font-weight: 500; }
+  .back-link:hover { color: #fff; }
+  .lang-switch { display: flex; gap: 2px; background: rgba(255,255,255,0.10); border-radius: 999px; padding: 3px; }
+  .lang-btn {
+    appearance: none; border: none; cursor: pointer; font-family: inherit;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.03em; padding: 5px 11px;
+    border-radius: 999px; background: transparent; color: rgba(255,255,255,0.6);
+  }
+  .lang-btn.active { background: var(--accent); color: #fff; }
+
+  main { padding: 56px 0 80px; }
+  .eyebrow {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent-tint); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; font-weight: 700; line-height: 1.2; margin: 0 0 12px; color: #fff; }
+  .lede { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 30px; }
+  h2 { font-size: 19px; font-weight: 600; margin: 40px 0 12px; color: #fff; }
+  p { font-size: 15px; line-height: 1.7; color: var(--text-secondary); margin: 0 0 14px; }
+  address { font-style: normal; font-size: 15px; line-height: 1.7; color: var(--text-secondary); }
+  ul.plain { margin: 0 0 14px; padding-left: 20px; }
+  ul.plain li { font-size: 15px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 4px; }
+  .card {
+    background: var(--surface-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 24px; margin: 14px 0 24px;
+  }
+  .stamp { font-size: 12.5px; color: var(--muted); margin-top: 40px; }
+  [hidden] { display: none !important; }
+
+  footer { background: var(--bg-page); border-top: 1px solid rgba(255,255,255,0.08); color: var(--muted); padding: 28px 0; font-size: 12.5px; }
+  footer .wrap { max-width: 1080px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 24px; }
+  .footer-legal { display: flex; align-items: center; gap: 10px; }
+  .footer-legal a { color: var(--muted); text-decoration: none; }
+  .footer-legal a:hover { color: var(--accent-tint); text-decoration: underline; }
+  .footer-dot { color: var(--gridline); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="logo">VENTURE LABS</span>
+      <span class="name">AI Pulse</span>
+    </a>
+    <div class="header-right">
+      <a class="back-link" href="index.html" id="backLink">—</a>
+      <div class="lang-switch">
+        <button class="lang-btn" id="langBtnDe" onclick="setLang('de')">DE</button>
+        <button class="lang-btn" id="langBtnEn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== DE ===== -->
+  <div id="content-de">
+    <div class="eyebrow">RECHTLICHES</div>
+    <h1>Datenschutzerklärung</h1>
+    <p class="lede">
+      Diese Erklärung gilt für die Website und den AI Pulse Score unter dieser Domain. Sie ist eigenständig und
+      unabhängig von der Datenschutzerklärung auf venturelabs.team, auch wenn beide Angebote von derselben
+      Gesellschaft betrieben werden.
+    </p>
+
+    <h2>I. Verantwortlicher</h2>
+    <address>
+      Venture Labs GmbH<br>
+      Breite Str. 27, 40213 Düsseldorf<br>
+      E-Mail: <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a><br>
+      — weitere Angaben siehe <a href="pulse-imprint.html">Impressum</a>.
+    </address>
+
+    <h2>II. Externer Datenschutzbeauftragter</h2>
+    <address>
+      Martin Wagner<br>
+      c/o EKP Engel, Kronenberg &amp; Partner Steuerberater/Rechtsanwälte mbB<br>
+      Am Dieken 57, 40885 Ratingen<br>
+      Telefon: +49 2102 3027 0<br>
+      Web: <a href="https://www.e-k-p.de/" target="_blank" rel="noopener">e-k-p.de</a>
+    </address>
+
+    <h2>III. Allgemeine Nutzung der Website</h2>
+    <p>
+      Beim rein informatorischen Besuch dieser Seite erheben wir keine personenbezogenen Daten. Technisch bedingt kann
+      Ihr Browser automatisch bestimmte Informationen an unseren Hosting-Anbieter übertragen (u. a. Datum und Uhrzeit
+      des Zugriffs, Browsertyp, Betriebssystem, IP-Adresse). Diese Daten dienen ausschließlich der technischen
+      Bereitstellung der Seite und werden nicht personenbezogen ausgewertet.
+    </p>
+
+    <h2>IV. Der AI Pulse Score – Selbsttest</h2>
+    <p>
+      Der AI Pulse Score ist ein interaktiver Selbsttest. Ihre Antworten werden während der Nutzung ausschließlich
+      lokal in Ihrem Browser verarbeitet und berechnet – sie werden nicht an unsere Server übertragen, solange Sie
+      kein Ergebnis anfordern.
+    </p>
+    <p>
+      Wenn Sie am Ende des Tests Ihre geschäftliche E-Mail-Adresse und optional Ihren Firmennamen angeben, um Ihren
+      Pulse Score sowie das Benchmark-PDF zu erhalten, verarbeiten wir diese Angaben, um:
+    </p>
+    <ul class="plain">
+      <li>Ihnen Ihr Testergebnis und das Benchmark-PDF zuzusenden,</li>
+      <li>gelegentlich themenbezogene Folgeinformationen zu senden, sofern Sie dem nicht widersprechen.</li>
+    </ul>
+    <p>
+      Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) sowie die Durchführung vorvertraglicher
+      Maßnahmen auf Ihre Anfrage hin (Art. 6 Abs. 1 lit. b DSGVO). Der Versand kann über ein E-Mail- bzw. CRM-Tool
+      erfolgen; sofern dabei ein Dienstleister eingebunden wird, besteht mit diesem ein Auftragsverarbeitungsvertrag
+      nach Art. 28 DSGVO. Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen – formlos per
+      E-Mail an <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a>.
+    </p>
+
+    <h2>V. Kontaktaufnahme</h2>
+    <p>
+      Der Button „Termin vereinbaren" öffnet Ihr eigenes E-Mail-Programm mit einer vorausgefüllten Nachricht an
+      contact@venturelabs.team. Wir erhalten dabei nur die Angaben, die Sie uns aktiv per E-Mail zusenden, und nutzen
+      diese ausschließlich zur Bearbeitung Ihrer Anfrage.
+    </p>
+
+    <h2>VI. Cookies</h2>
+    <p>
+      Diese Seite setzt keine eigenen Analyse- oder Marketing-Cookies. Ihre Quiz-Antworten werden während der Sitzung
+      nur im Arbeitsspeicher Ihres Browsers gehalten, nicht in Cookies oder lokalem Speicher abgelegt.
+    </p>
+
+    <h2>VII. Google Fonts</h2>
+    <p>
+      Diese Seite bindet die Schriftart „Poppins" über Google Fonts ein. Beim Aufruf der Seite wird dazu eine
+      Verbindung zu Servern von Google LLC (1600 Amphitheatre Parkway, Mountain View, CA 94043, USA) hergestellt,
+      wobei Ihre IP-Adresse übertragen werden kann. Weitere Informationen:
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+    </p>
+
+    <h2>VIII. Weitergabe an Dritte</h2>
+    <p>
+      Eine Weitergabe Ihrer Daten an Dritte erfolgt nur, soweit dies zur Erbringung der von Ihnen angefragten
+      Leistung erforderlich ist (z. B. ein E-Mail-/CRM-Tool zum Versand des Benchmark-PDFs) oder wir gesetzlich dazu
+      verpflichtet sind. Eine Verarbeitung Ihrer Daten außerhalb der EU/des EWR findet – mit Ausnahme der unter VII.
+      genannten Google-Fonts-Verbindung – nicht statt.
+    </p>
+
+    <h2>IX. Ihre Rechte</h2>
+    <p>
+      Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit
+      sowie Widerspruch gegen die Verarbeitung Ihrer personenbezogenen Daten. Wenden Sie sich hierzu an
+      <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a> oder unseren Datenschutzbeauftragten
+      (siehe oben). Ihnen steht zudem ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde zu, z. B. beim
+      Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.
+    </p>
+
+    <h2>X. Datensicherheit</h2>
+    <p>Die Übertragung Ihrer Daten erfolgt verschlüsselt über SSL/TLS (https).</p>
+
+    <p class="stamp">Stand: August 2026</p>
+  </div>
+
+  <!-- ===== EN ===== -->
+  <div id="content-en" hidden>
+    <div class="eyebrow">LEGAL</div>
+    <h1>Privacy Policy</h1>
+    <p class="lede">
+      This policy covers the website and the AI Pulse Score under this domain. It is separate and independent from
+      the privacy policy on venturelabs.team, even though both offerings are operated by the same company.
+    </p>
+
+    <h2>I. Controller</h2>
+    <address>
+      Venture Labs GmbH<br>
+      Breite Str. 27, 40213 Düsseldorf, Germany<br>
+      Email: <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a><br>
+      — see our <a href="pulse-imprint.html">imprint</a> for further details.
+    </address>
+
+    <h2>II. External Data Protection Officer</h2>
+    <address>
+      Martin Wagner<br>
+      c/o EKP Engel, Kronenberg &amp; Partner Steuerberater/Rechtsanwälte mbB<br>
+      Am Dieken 57, 40885 Ratingen, Germany<br>
+      Phone: +49 2102 3027 0<br>
+      Web: <a href="https://www.e-k-p.de/" target="_blank" rel="noopener">e-k-p.de</a>
+    </address>
+
+    <h2>III. General use of the website</h2>
+    <p>
+      We do not collect personal data for purely informational visits to this site. For technical reasons, your
+      browser may automatically transmit certain information to our hosting provider (including date and time of
+      access, browser type, operating system, and IP address). This data is used solely to technically deliver the
+      site and is not evaluated on a personal basis.
+    </p>
+
+    <h2>IV. The AI Pulse Score self-assessment</h2>
+    <p>
+      The AI Pulse Score is an interactive self-assessment. Your answers are processed and calculated entirely
+      locally in your browser while you take it — they are not transmitted to our servers unless you request a
+      result.
+    </p>
+    <p>
+      If, at the end of the test, you provide your work email address and, optionally, your company name to receive
+      your Pulse Score and the benchmark PDF, we process this information to:
+    </p>
+    <ul class="plain">
+      <li>send you your test result and the benchmark PDF,</li>
+      <li>occasionally send related follow-up information, unless you opt out.</li>
+    </ul>
+    <p>
+      The legal basis is your consent (Art. 6(1)(a) GDPR) and the performance of pre-contractual measures taken at
+      your request (Art. 6(1)(b) GDPR). Delivery may run through an email or CRM tool; where a processor is involved,
+      a data processing agreement under Art. 28 GDPR is in place. You can withdraw your consent at any time with
+      effect for the future, informally by email to <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a>.
+    </p>
+
+    <h2>V. Getting in touch</h2>
+    <p>
+      The "Book a call" button opens your own email application with a pre-filled message to contact@venturelabs.team.
+      We only receive the information you actively choose to send us by email, and we use it solely to handle your
+      inquiry.
+    </p>
+
+    <h2>VI. Cookies</h2>
+    <p>
+      This page does not set its own analytics or marketing cookies. Your quiz answers are held only in your
+      browser's memory for the duration of your session — not in cookies or local storage.
+    </p>
+
+    <h2>VII. Google Fonts</h2>
+    <p>
+      This page embeds the "Poppins" typeface via Google Fonts. Loading the page establishes a connection to Google
+      LLC servers (1600 Amphitheatre Parkway, Mountain View, CA 94043, USA), which may transmit your IP address.
+      More information: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.
+    </p>
+
+    <h2>VIII. Disclosure to third parties</h2>
+    <p>
+      We only disclose your data to third parties where necessary to provide the service you requested (e.g. an
+      email/CRM tool used to send the benchmark PDF) or where we are legally required to do so. Aside from the
+      Google Fonts connection described in section VII, your data is not processed outside the EU/EEA.
+    </p>
+
+    <h2>IX. Your rights</h2>
+    <p>
+      You have the right to access, rectification, erasure, restriction of processing, data portability, and
+      objection regarding your personal data. Contact <a href="mailto:contact@venturelabs.team">contact@venturelabs.team</a>
+      or our data protection officer (above). You also have the right to lodge a complaint with a supervisory
+      authority, e.g. the North Rhine-Westphalia data protection authority.
+    </p>
+
+    <h2>X. Data security</h2>
+    <p>Your data is transmitted in encrypted form via SSL/TLS (https).</p>
+
+    <p class="stamp">Last updated: August 2026</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span id="footerLeft">—</span>
+    <nav class="footer-legal" aria-label="Legal">
+      <a href="pulse-imprint.html" id="footerImprint">—</a>
+      <span class="footer-dot">·</span>
+      <a href="pulse-privacy.html" id="footerPrivacy">—</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+let lang = "de";
+const STRINGS = {
+  de: { back: "← Zur Startseite", footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerImprint: "Impressum", footerPrivacy: "Datenschutz" },
+  en: { back: "← Back to homepage", footerLeft: "© 2026 Venture Labs GmbH, Düsseldorf", footerImprint: "Imprint", footerPrivacy: "Privacy" },
+};
+function setLang(newLang) {
+  lang = newLang;
+  document.documentElement.lang = lang;
+  document.getElementById("langBtnDe").classList.toggle("active", lang === "de");
+  document.getElementById("langBtnEn").classList.toggle("active", lang === "en");
+  document.getElementById("content-de").hidden = lang !== "de";
+  document.getElementById("content-en").hidden = lang !== "en";
+  const s = STRINGS[lang];
+  document.getElementById("backLink").textContent = s.back;
+  document.getElementById("footerLeft").textContent = s.footerLeft;
+  document.getElementById("footerImprint").textContent = s.footerImprint;
+  document.getElementById("footerPrivacy").textContent = s.footerPrivacy;
+}
+setLang("de");
+</script>
+</body>
+</html>
