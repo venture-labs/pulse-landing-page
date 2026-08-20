@@ -236,6 +236,20 @@
 </head>
 <body>
 
+<!-- Static, build-time-detectable form for Netlify Forms. Never shown to visitors —
+     the real quiz UI is the multi-step flow below, driven entirely by JS. This form
+     exists only so Netlify's deploy-time HTML scan registers the field schema; the
+     actual submission happens via fetch() in submitEmail(), see the script below. -->
+<form name="pulse-score-leads" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email" />
+  <input type="text" name="company" />
+  <input type="text" name="score" />
+  <input type="text" name="band" />
+  <input type="text" name="weakest" />
+  <input type="text" name="lang" />
+  <input name="bot-field" />
+</form>
+
 <header>
   <div class="wrap">
     <div class="brand">
@@ -453,11 +467,13 @@
 // German is the default language; English is selectable via the DE/EN toggle.
 //
 // TODO before launch:
-//   - submitEmail() below does not post anywhere yet — connect to a CRM/email tool.
-//   - BOOKING_URL below is empty, so #contactCta falls back to a plain mailto: link.
-//     Once you set up a booking page (Google Calendar "Appointment schedule" or a tool
-//     like Calendly/Cal.com), paste its URL here and every "book a call" CTA on the page
-//     switches to it automatically — no other edits needed.
+//   - Quiz leads are captured via Netlify Forms (see the hidden "pulse-score-leads"
+//     form above and submitEmail() below). This only works once the site is actually
+//     deployed on Netlify — Netlify's build step is what registers the form. Locally
+//     or on GitHub Pages, the fetch() call below will just fail silently, which is
+//     intentional (see the .catch): it never blocks showing the visitor their result.
+//   - After deploying: go to Site settings -> Forms -> Form notifications in the
+//     Netlify dashboard and add an email notification so you get pinged per submission.
 const BOOKING_URL = "https://calendar.app.google/SsabAjwxnbUjhoGo8";
 // ---------------------------------------------------------------------------
 
@@ -821,8 +837,32 @@ document.addEventListener("input", (e) => {
   }
 });
 
+function encodeFormData(data) {
+  return Object.keys(data)
+    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+}
+
 function submitEmail() {
-  // In production: POST { email, company, answers, score } to the CRM here.
+  const email = document.getElementById("emailInput").value.trim();
+  const company = document.getElementById("companyInput").value.trim();
+  const { dimTotals, overall } = computeScores();
+  const band = bandFor(overall);
+  const weakest = Object.entries(dimTotals)
+    .sort((a, b) => a[1] - b[1])
+    .slice(0, 2)
+    .map(([key]) => DIMENSIONS[key][lang])
+    .join(", ");
+
+  // Sends the lead to Netlify Forms (see the hidden "pulse-score-leads" form near the
+  // top of <body>). Fails silently outside of a Netlify deployment — intentional, see
+  // the TODO note above — and never blocks showing the visitor their own result below.
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: encodeFormData({ "form-name": "pulse-score-leads", email, company, score: String(overall), band: band.name[lang], weakest, lang }),
+  }).catch(err => console.warn("Lead submission did not reach Netlify Forms (expected outside of a Netlify deployment):", err));
+
   document.getElementById("screen-email").hidden = true;
   document.getElementById("screen-results").hidden = false;
   resultsShown = true;
