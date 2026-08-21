@@ -395,7 +395,6 @@
         <div class="tier-eyebrow" id="tier1Eyebrow">—</div>
         <div class="tier-name" id="tier1Name">—</div>
         <div class="tier-price" id="tier1Price">—</div>
-        <div class="tier-range" id="tier1Range">—</div>
         <p class="tier-desc" id="tier1Desc">—</p>
         <ul class="tier-bullets" id="tier1Bullets"></ul>
         <p class="tier-note" id="tier1Note">—</p>
@@ -405,7 +404,6 @@
         <div class="tier-eyebrow" id="tier2Eyebrow">—</div>
         <div class="tier-name" id="tier2Name">—</div>
         <div class="tier-price" id="tier2Price">—</div>
-        <div class="tier-range" id="tier2Range">—</div>
         <p class="tier-desc" id="tier2Desc">—</p>
         <ul class="tier-bullets" id="tier2Bullets"></ul>
         <p class="tier-note" id="tier2Note">—</p>
@@ -415,7 +413,6 @@
         <div class="tier-eyebrow" id="tier3Eyebrow">—</div>
         <div class="tier-name" id="tier3Name">—</div>
         <div class="tier-price" id="tier3Price">—</div>
-        <div class="tier-range" id="tier3Range">—</div>
         <p class="tier-desc" id="tier3Desc">—</p>
         <ul class="tier-bullets" id="tier3Bullets"></ul>
         <p class="tier-note" id="tier3Note">—</p>
@@ -512,15 +509,15 @@ const PAGE_STRINGS = {
     pricingEyebrow: "ABLAUF", pricingH2: "Ein Prozess mit drei Schritten",
     pricingLede: "Jeder Schritt baut auf dem vorherigen auf. Sie entscheiden nach jedem Schritt, ob es weitergeht – ganz ohne Verpflichtung zum nächsten.",
     stepperLabel1: "Einstieg", stepperLabel2: "Falls sinnvoll", stepperLabel3: "Nach dem Build",
-    tier1Eyebrow: "SCHRITT 1 · EINSTIEG", tier1Name: "Pulse Check", tier1Price: "Ab 2.900 €", tier1Range: "Festpreis · Spanne 2.900–4.900 €",
+    tier1Eyebrow: "SCHRITT 1 · EINSTIEG", tier1Name: "Pulse Check", tier1Price: "Ab 2.900 €",
     tier1Desc: "1–2 Tage strukturierte Analyse über Ihre Abteilungen hinweg, geliefert als priorisierte Roadmap.",
     tier1Bullets: ["AI Vital Signs Report", "Priorisierter Opportunity-Backlog", "Kein 40-seitiger Bericht, den niemand liest"],
     tier1Note: "Der einzige Schritt, den Sie direkt buchen.",
-    tier2Eyebrow: "SCHRITT 2 · FALLS SINNVOLL", tier2Name: "Pulse Build", tier2Price: "Ab 15.000 €", tier2Range: "Festpreis für 4-Wochen-Sprint · Spanne 9.000–28.000 €",
+    tier2Eyebrow: "SCHRITT 2 · FALLS SINNVOLL", tier2Name: "Pulse Build", tier2Price: "Ab 15.000 €",
     tier2Desc: "Sobald der Pulse Check zeigt, wo der größte Hebel liegt, setzen wir gemeinsam die 1–3 wichtigsten Anwendungsfälle um.",
     tier2Bullets: ["4 Wochen Standardumfang, erweiterbar auf 8", "Dedizierter Entwickler, feste Ansprechperson während der gesamten Umsetzung", "Festpreis mit klar definiertem Umfang – keine versteckten Kosten"],
     tier2Note: "Wird nach Ihrem Pulse Check gemeinsam entschieden – kein eigenständiges Angebot.",
-    tier3Eyebrow: "SCHRITT 3 · NACH DEM BUILD", tier3Name: "Pulse Care", tier3Price: "Ab 2.500 €/Monat", tier3Range: "Spanne 1.800–4.500 €/Monat · Mindestlaufzeit 6 Monate",
+    tier3Eyebrow: "SCHRITT 3 · NACH DEM BUILD", tier3Name: "Pulse Care", tier3Price: "Ab 2.500 €/Monat",
     tier3Desc: "Sobald eine erste Lösung läuft, halten wir sie mit Ihnen aktuell: 2 Termine pro Monat plus Dashboard-Zugriff.",
     tier3Bullets: ["Monatliches Dashboard-Tracking", "Vierteljährliches Deep-Review", "Jährlicher Pulse-Check-Refresh"],
     tier3Note: "Relevant, sobald wir gemeinsam etwas gebaut haben.",
@@ -564,15 +561,15 @@ const PAGE_STRINGS = {
     pricingEyebrow: "PROCESS", pricingH2: "A three-step process",
     pricingLede: "Each step builds on the last. You decide after every step whether to continue — no obligation to move to the next one.",
     stepperLabel1: "Starting point", stepperLabel2: "If it makes sense", stepperLabel3: "After the build",
-    tier1Eyebrow: "STEP 1 · STARTING POINT", tier1Name: "Pulse Check", tier1Price: "Starting at €2,900", tier1Range: "Fixed fee · full range €2,900–4,900",
+    tier1Eyebrow: "STEP 1 · STARTING POINT", tier1Name: "Pulse Check", tier1Price: "Starting at €2,900",
     tier1Desc: "1–2 days of structured analysis across your departments, delivered as a prioritised roadmap.",
     tier1Bullets: ["AI Vital Signs Report", "Prioritised opportunity backlog", "Not a 40-page report nobody reads"],
     tier1Note: "The only step you book directly.",
-    tier2Eyebrow: "STEP 2 · IF IT MAKES SENSE", tier2Name: "Pulse Build", tier2Price: "Starting at €15,000", tier2Range: "Fixed fee for a 4-week sprint · full range €9,000–28,000",
+    tier2Eyebrow: "STEP 2 · IF IT MAKES SENSE", tier2Name: "Pulse Build", tier2Price: "Starting at €15,000",
     tier2Desc: "Once your Pulse Check has shown where the leverage is, we build the 1–3 highest-priority use cases together.",
     tier2Bullets: ["4-week standard scope, extendable to 8", "A dedicated developer and a single point of contact throughout", "Fixed price with a clearly defined scope — no hidden costs"],
     tier2Note: "Decided together after your Pulse Check — not a standalone purchase.",
-    tier3Eyebrow: "STEP 3 · AFTER THE BUILD", tier3Name: "Pulse Care", tier3Price: "Starting at €2,500/month", tier3Range: "Full range €1,800–4,500/month · 6-month minimum",
+    tier3Eyebrow: "STEP 3 · AFTER THE BUILD", tier3Name: "Pulse Care", tier3Price: "Starting at €2,500/month",
     tier3Desc: "Once a first solution is live, we keep it current with you: 2 scheduled calls a month plus dashboard access.",
     tier3Bullets: ["Monthly dashboard tracking", "Quarterly deep review", "Annual Pulse Check refresh"],
     tier3Note: "Relevant once we've built something together.",
@@ -767,11 +764,11 @@ function applyStaticStrings() {
   setText("pricingEyebrow", s.pricingEyebrow); setText("pricingH2", s.pricingH2); setText("pricingLede", s.pricingLede);
   setText("stepperLabel1", s.stepperLabel1); setText("stepperLabel2", s.stepperLabel2); setText("stepperLabel3", s.stepperLabel3);
   setText("tier1Eyebrow", s.tier1Eyebrow); setText("tier1Name", s.tier1Name); setText("tier1Price", s.tier1Price);
-  setText("tier1Range", s.tier1Range); setText("tier1Desc", s.tier1Desc); setList("tier1Bullets", s.tier1Bullets); setText("tier1Note", s.tier1Note);
+  setText("tier1Desc", s.tier1Desc); setList("tier1Bullets", s.tier1Bullets); setText("tier1Note", s.tier1Note);
   setText("tier2Eyebrow", s.tier2Eyebrow); setText("tier2Name", s.tier2Name); setText("tier2Price", s.tier2Price);
-  setText("tier2Range", s.tier2Range); setText("tier2Desc", s.tier2Desc); setList("tier2Bullets", s.tier2Bullets); setText("tier2Note", s.tier2Note);
+  setText("tier2Desc", s.tier2Desc); setList("tier2Bullets", s.tier2Bullets); setText("tier2Note", s.tier2Note);
   setText("tier3Eyebrow", s.tier3Eyebrow); setText("tier3Name", s.tier3Name); setText("tier3Price", s.tier3Price);
-  setText("tier3Range", s.tier3Range); setText("tier3Desc", s.tier3Desc); setList("tier3Bullets", s.tier3Bullets); setText("tier3Note", s.tier3Note);
+  setText("tier3Desc", s.tier3Desc); setList("tier3Bullets", s.tier3Bullets); setText("tier3Note", s.tier3Note);
   setText("processCta", s.processCta); setText("processCtaSub", s.processCtaSub);
   setText("trustEyebrow", s.trustEyebrow); setText("trustH2", s.trustH2);
   setText("trust1H", s.trust1H); setText("trust1P", s.trust1P);
